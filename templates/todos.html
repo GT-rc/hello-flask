@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <title>TODO's</title>
+    </head>
+    <body>
+        <h1>TODOs</h1>
+        <form method="post" >
+            <label>New Task:
+                <input type="text" name="task" />
+            </label>
+            <input type="submit" value="Add Task" />
+        </form>
+        <br />
+
+        {% if tasks|length == 0 %}
+        <p>No tasks yet</p>
+        {% else %}
+        <ul>
+            {% for task in tasks %}
+            <li>{{task}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    </body>
+</html>

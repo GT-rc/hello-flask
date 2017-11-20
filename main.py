@@ -1,24 +1,25 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import cgi
 import os 
 import jinja2
 
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
+# Don't need these with render_template
+#template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+#jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape=True)
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
 @app.route("/")
 def index():
-    template = jinja_env.get_template("hello_form.html")
-    return template.render()
+    #template = jinja_env.get_template("hello_form.html")
+    return render_template("hello_form.html")
 
 @app.route("/hello", methods=['POST'])
 def hello():
     first_name = request.form["first_name"]
-    template = jinja_env.get_template("hello_greeting.html")
-    return template.render(name=first_name)
+    #template = jinja_env.get_template("hello_greeting.html")
+    return render_template("hello_greeting.html", name=first_name)
 
 
 
@@ -28,8 +29,8 @@ def hello():
 
 @app.route('/validate-time')
 def display_time_form():
-    template = jinja_env.get_template("time_form.html")
-    return template.render()
+    #template = jinja_env.get_template("time_form.html")
+    return render_template("time_form.html")
 
 def is_integer(num):
     try:
@@ -71,7 +72,7 @@ def validate_time():
         return '/valid-time?time={0}'.format(time)
     else:
         template = jinja_env.get_template("time_form.html")
-        return template.render(hours_error=hours_error,
+        return render_template("time_form.html", hours_error=hours_error,
             minutes_error=minutes_error,
             hours=hours,
             minutes=minutes)
@@ -92,7 +93,7 @@ def todos():
         tasks.append(task)
 
     template = jinja_env.get_template("todos.html")
-    return template.render(tasks=tasks)
+    return render_template("todos.html", tasks=tasks, title="This is a test")
 
 
 app.run()
